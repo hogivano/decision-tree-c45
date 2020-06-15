@@ -41,8 +41,11 @@ class C45:
         elif no == 0 and yes != 0:
             return "yes"
         else:
-            print("(c45) yes : ", yes, " ", "no : ", no, " ", len(rows))
-            return None
+            # print("(c45) yes : ", yes, " ", "no : ", no, " ", len(rows))
+            return {
+                "yes" : yes,
+                "no" : no
+            }
 
     def getStateCount(self, rows):
         yes = 0
@@ -67,7 +70,7 @@ class C45:
         for i in range(len(rows)):
             arr_temp.append(rows[i][self.classifier_col_index])
         arr_temp.sort()
-        print(arr_temp)
+        # print(arr_temp)
         if (len(arr_temp) % 2 == 2):
             center = int(len(arr_temp)/2)
             median = (arr_temp(center) + arr_temp(center-1))/2
@@ -132,7 +135,7 @@ class C45:
         else:
             m = minus/total
 
-        print("entropy ", p, m)
+        # print("entropy ", p, m)
         if (p == 0.0):
             left = 0
         else:

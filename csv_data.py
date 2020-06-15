@@ -50,6 +50,7 @@ class CsvData:
                     max = c45.gain_ratio
 
                 self.result_calculate[self.attributes[i]] = c45
+                print("Attribute : ", self.attributes[i])
                 print("entropy_s : ", c45.entropy_s)
                 print("gain ratio : ", c45.gain_ratio)
                 print("median : ",  c45.median)
@@ -57,14 +58,39 @@ class CsvData:
         self.max_gain = max
         self.max_attribute = max_attribute
 
+        print("max_attribute : ", max_attribute)
+
         c45 = self.result_calculate[max_attribute]
+        # print("state_true")
+        print("max gain : ", max)
         self.state_true = c45.getState(c45.rows_true)
+
+        if (self.state_true != "yes" and self.state_true != "no"):
+            if (self.state_true["yes"] > self.state_true["no"] and (self.state_true["yes"] + self.state_true["no"]) < 4):
+                self.state_true = "yes"
+                print("right node : ", "yes")
+                # print("true okee yes")
+            elif (self.state_true["yes"] < self.state_true["no"] and (self.state_true["yes"] + self.state_true["no"]) < 4):
+                self.state_true = "no"
+                print("right node : ", "no")
+                # print("true okee no")
+            else:
+                self.state_true = None
+
+        # print("state_false")
         self.state_false = c45.getState(c45.rows_false)
+        if (self.state_false != "yes" and self.state_false != "no"):
+            if (self.state_false["yes"] > self.state_false["no"] and (self.state_false["yes"] + self.state_false["no"]) < 4):
+                self.state_false = "yes"
+                print("left node : ", "yes")
+            elif (self.state_false["yes"] < self.state_false["no"] and (self.state_false["yes"] + self.state_false["no"]) < 4):
+                self.state_false = "no"
+                print("left node : ", "no")
+            else:
+                self.state_false = None
 
-        print("true : ", self.state_true)
-        print("false : ", self.state_false)
-        print("max gain : ", max, " ", max_attribute)
-
+        # print("true : ", self.state_true)
+        # print("false : ", self.state_false)
     def setPath(self, path):
         self.path = path
 
