@@ -2,6 +2,8 @@ from csv_data import CsvData
 from node import Node
 from test_case import TestCase
 from decision_tree import DecisionTree
+from anytree import Node as anyNode, RenderTree
+import uuid
 
 # set data first time
 percent = input("Split percent(%) : ")
@@ -13,8 +15,14 @@ dataset.initialize()
 dataset.calculate()
 
 root = Node(None, None, None, dataset)
+root.uuid = str(uuid.uuid4().fields[-1])[:5]
+root.an = anyNode(root.csv_data.max_attribute + ' >= ' + str(root.csv_data.result_calculate[root.csv_data.max_attribute].median) + " (" + str(len(root.csv_data.rows)) +")")
+
 generate = DecisionTree(root, "quality")
 generate.generate(root)
+generate.copyGenerataGraph()
+generate.printGraph()
+
 root = generate.index
 
 test_case = TestCase(root, data_test)
