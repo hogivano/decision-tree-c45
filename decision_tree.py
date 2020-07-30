@@ -50,12 +50,6 @@ class DecisionTree:
                     self.index = self.index.parent
                     node = self.index
 
-                    # if (self.index.parent != None):
-                    #     self.index.setAn(anyNode(self.index.csv_data.state_false, self.index.parent.getAn()))
-                    # if (node.csv_data.state_false == None):
-                    # else:
-                    #     self.index.left = node
-                    #     self.index = self.index.left
                 else:
                     if (len(node.csv_data.result_calculate[node.csv_data.max_attribute].rows_false) == 1):
                         if (node.csv_data.result_calculate[node.csv_data.max_attribute].rows_false[0][node.csv_data.decision_col_index] == 1):
@@ -94,12 +88,6 @@ class DecisionTree:
                     self.index = self.index.parent
                     node = self.index
 
-                    # if (self.index.parent != None):
-                    #     self.index.setAn(anyNode(self.index.csv_data.state_true, self.index.parent.getAn()))
-                    # if (node.csv_data.state_true == None):
-                    # else:
-                    #     self.index.right = node
-                    #     self.index = self.index.right
                 else:
                     if (len(node.csv_data.result_calculate[node.csv_data.max_attribute].rows_true) == 1):
                         if (node.csv_data.result_calculate[node.csv_data.max_attribute].rows_true[0][node.csv_data.decision_col_index] == 1):
@@ -119,36 +107,18 @@ class DecisionTree:
         return count
 
     def generateGraph(self):
-        # new = self.arrDot[:len(self.arrDot)//5]
-        # print(new)
-        # print(len(new))
-        # self.dot.edges(new)
-        # self.dot.render('./decision-tree.gv', view=True)
-        # print(RenderTree(self.index.an))
         if (self.index.left != None):
             self.index = self.index.left
-            # if (self.index.csv_data.state_false == None):
-            # else:
-            self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.max_attribute + ' >= ' + str(self.index.csv_data.result_calculate[self.index.csv_data.max_attribute].median), self.index.parent.an)
-            # if (self.index.csv_data.state_false == None):
-            # elif (self.index.csv_data.state_false != None):
-            #     self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.state_false, self.index.parent.an)
-            # elif (self.index.csv_data.state_true != None):
-            #     self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.state_true, self.index.parent.an)
-            # else:
-            #     self.index.an = anyNode("(" + str(self.index.uuid) + ") " + "None", self.index.parent.an)
 
+            self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.max_attribute + ' >= ' + str(self.index.csv_data.result_calculate[self.index.csv_data.max_attribute].median), self.index.parent.an)
 
             self.generateGraph()
             self.index = self.index.parent
-                # self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.state_false, self.index.parent.an)
 
         if (self.index.right != None):
             self.index = self.index.right
             self.index.an = anyNode("(" + str(self.index.uuid) + ") "+ self.index.csv_data.max_attribute + ' >= ' + str(self.index.csv_data.result_calculate[self.index.csv_data.max_attribute].median), self.index.parent.an)
-            # if (self.index.csv_data.state_true == None):
-            # else:
-            #     self.index.an = anyNode("(" + str(self.index.uuid) + ") "+ self.index.csv_data.state_true, self.index.parent.an)
+
             self.generateGraph()
             self.index = self.index.parent
                 # self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.state_true, self.index.parent.an)
@@ -158,9 +128,7 @@ class DecisionTree:
             if (self.index.csv_data.state_false != None):
                 cek = True
             self.index = self.index.left
-            # if (cek):
-            #     self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.state_false, self.index.parent.an)
-            # else:
+
             self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.max_attribute + ' >= ' + str(self.index.csv_data.result_calculate[self.index.csv_data.max_attribute].median) + " ("+ str(len(self.index.csv_data.rows)) +")", self.index.parent.an)
             self.generateGraph()
             self.index = self.index.parent
@@ -169,19 +137,10 @@ class DecisionTree:
             if (self.index.csv_data.state_true != None):
                 cek = True
             self.index = self.index.right
-            # if (cek):
-            #     self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.state_true, self.index.parent.an)
-            # else:
+
             self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.max_attribute + ' >= ' + str(self.index.csv_data.result_calculate[self.index.csv_data.max_attribute].median) + " ("+ str(len(self.index.csv_data.rows)) +")", self.index.parent.an)
             self.generateGraph()
             self.index = self.index.parent
-
-        # if (self.index.csv_data.state_false != None):
-        #     self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.state_false, self.index.parent.an)
-        # elif (self.index.csv_data.state_true != None):
-        #     self.index.an = anyNode("(" + str(self.index.uuid) + ") " + self.index.csv_data.state_true, self.index.parent.an)
-        # else:
-        #     self.index.an = anyNode("(" + str(self.index.uuid) + ") " + "None", self.index.parent.an)
 
     def printGraph(self):
         for pre, fill, node in RenderTree(self.index.an):
